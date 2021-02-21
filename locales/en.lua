@@ -5,8 +5,11 @@ Locales['en'] = {
 	['not_enough_money'] = 'شما پول کافی ندارید.',
 	['press_menu'] = 'دکمه E را جهت دسترسی به منو فشار دهید.',
 	['clothes'] = 'لباس ها',
-	['you_paid'] = 'شما مبلغ $%s پرداخت کردید.',
 	['save_in_dressing'] = 'آیا میخواهید لباس را ذخیره کنید؟',
 	['name_outfit'] = 'نامی برای این لباس انتخاب کنید.',
 	['saved_outfit'] = 'لباس شما ذخیره شد!',
+	
+	['valid_purchase'] = 'تکمیل خرید?',
+    ['barber_blip'] = 'Arayeshgah',
+    ['you_paid'] = 'پرداخت کردید! ',
 }

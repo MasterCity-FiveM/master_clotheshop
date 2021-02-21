@@ -23,12 +23,23 @@ AddEventHandler('esx_clotheshop:saveOutfit', function(label, skin)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_clotheshop:buyClothes', function(source, cb)
+ESX.RegisterServerCallback('esx_clotheshop:buyClothes', function(source, cb, isBarbar)
 	local xPlayer = ESX.GetPlayerFromId(source)
-
-	if xPlayer.getMoney() >= Config.Price then
-		xPlayer.removeMoney(Config.Price)
-		TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.Price), type = "success", timeout = 5000, layout = "bottomCenter"})
+	
+	if isBarbar then
+		if xPlayer.getMoney() >= Config.BarbarPrice then
+			xPlayer.removeMoney(Config.BarbarPrice)
+			TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.BarbarPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
+			cb(true)
+		else
+			cb(false)
+		end
+		return
+	end
+	
+	if xPlayer.getMoney() >= Config.ClothPrice then
+		xPlayer.removeMoney(Config.ClothPrice)
+		TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.ClothPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
 		cb(true)
 	else
 		cb(false)
