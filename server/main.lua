@@ -38,7 +38,11 @@ end)
 ESX.RegisterServerCallback('esx_clotheshop:checkPropertyDataStore', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local foundStore = false
-
+	
+	if xPlayer == nil then
+		return
+	end
+	
 	TriggerEvent('esx_datastore:getDataStore', 'property', xPlayer.identifier, function(store)
 		foundStore = true
 	end)
