@@ -11,5 +11,6 @@ Locales['en'] = {
 	
 	['valid_purchase'] = 'تکمیل خرید?',
     ['barber_blip'] = 'Arayeshgah',
-    ['you_paid'] = 'پرداخت کردید! ',
+    ['mask_blip'] = 'Mask',
+    ['you_paid'] = 'از خرید شما متشکریم! ',
 }

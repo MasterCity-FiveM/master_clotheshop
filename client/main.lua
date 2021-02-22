@@ -13,9 +13,8 @@ Citizen.CreateThread(function()
 	end
 end)
 
-function OpenShopMenu(IsBarbar)
+function OpenShopMenu(ShopType)
 	HasPaid = false
-	
 	local MenuItems = {
 		'tshirt_1',
 		'tshirt_2',
@@ -38,7 +37,7 @@ function OpenShopMenu(IsBarbar)
 		'bags_2'
 	}
 	local menu_type = 'shop_menu'
-	if IsBarbar then
+	if ShopType == 1 then
 		menu_type = 'barbar_menu'
 		MenuItems = {
 			'beard_1',
@@ -63,6 +62,12 @@ function OpenShopMenu(IsBarbar)
 			'lipstick_4',
 			'ears_1',
 			'ears_2',
+		}
+	elseif ShopType == 2 then
+		menu_type = 'mask_menu'
+		MenuItems = {
+			'mask_1',
+			'mask_2',
 		}
 	end
 	
@@ -89,7 +94,7 @@ function OpenShopMenu(IsBarbar)
 
 						HasPaid = true
 						
-						if not IsBarbar then
+						if not ShopType then
 							ESX.TriggerServerCallback('esx_clotheshop:checkPropertyDataStore', function(foundStore)
 								if foundStore then
 									ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'save_dressing',
@@ -129,7 +134,7 @@ function OpenShopMenu(IsBarbar)
 
 						exports.pNotify:SendNotification({text = _U('not_enough_money'), type = "error", timeout = 4000})
 					end
-				end, IsBarbar)
+				end, ShopType)
 			elseif data.current.value == 'no' then
 				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 					TriggerEvent('skinchanger:loadSkin', skin)
@@ -164,9 +169,12 @@ function OpenShopMenu(IsBarbar)
 end
 
 AddEventHandler('esx_clotheshop:hasEnteredMarker', function(zone)
-print(Config.Zones[zone].stype)
 	if Config.Zones[zone].stype == 'barber' then
 		CurrentAction     = 'barbar_menu'
+		CurrentActionMsg  = _U('press_menu')
+		CurrentActionData = {}
+	elseif Config.Zones[zone].stype == 'mask' then
+		CurrentAction     = 'mask_menu'
 		CurrentActionMsg  = _U('press_menu')
 		CurrentActionData = {}
 	else
@@ -206,6 +214,18 @@ Citizen.CreateThread(function()
 			BeginTextCommandSetBlipName("STRING")
 			AddTextComponentString(_U('clothes'))
 			EndTextCommandSetBlipName(blip)
+		elseif Config.Shops[i].stype == 'mask' then
+			local blip = AddBlipForCoord(Config.Shops[i].x, Config.Shops[i].y, Config.Shops[i].z)
+
+			SetBlipSprite (blip, 362)
+			SetBlipDisplay(blip, 4)
+			SetBlipScale  (blip, 0.8)
+			SetBlipColour (blip, 43)
+			SetBlipAsShortRange(blip, true)
+
+			BeginTextCommandSetBlipName("STRING")
+			AddTextComponentString(_U('mask_blip'))
+			EndTextCommandSetBlipName(blip)	
 		else
 			local blip = AddBlipForCoord(Config.Shops[i].x, Config.Shops[i].y, Config.Shops[i].z)
 
@@ -266,7 +286,9 @@ AddEventHandler('master_keymap:e', function()
 		if CurrentAction == 'shop_menu' then
 			OpenShopMenu(false)
 		elseif CurrentAction == 'barbar_menu' then
-			OpenShopMenu(true)
+			OpenShopMenu(1)
+		elseif CurrentAction == 'mask_menu' then
+			OpenShopMenu(2)
 		end
 		CurrentAction = nil
 	end

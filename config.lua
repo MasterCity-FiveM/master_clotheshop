@@ -3,6 +3,7 @@ Config.Locale = 'en'
 
 Config.ClothPrice = 250
 Config.BarbarPrice = 50
+Config.MaskPrice = 50
 
 Config.DrawDistance = 100.0
 Config.MarkerSize   = {x = 1.5, y = 1.5, z = 1.0}
@@ -34,6 +35,8 @@ Config.Shops = {
   {x = 1212.840,  y = -472.921,  z = 62.208, stype = 'barber'},
   {x = -32.885,   y = -152.319,  z = 56.076, stype = 'barber'},
   {x = -278.077,  y = 6228.463,  z = 30.695, stype = 'barber'},
+  
+  {x = -1338.1,  y = -1278.2,  z = 3.8, stype = 'mask'},
 }
 
 for i=1, #Config.Shops, 1 do
