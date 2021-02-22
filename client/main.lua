@@ -37,6 +37,7 @@ function OpenShopMenu(ShopType)
 		'bags_2'
 	}
 	local menu_type = 'shop_menu'
+	local price = Config.ClothPrice
 	if ShopType == 1 then
 		menu_type = 'barbar_menu'
 		MenuItems = {
@@ -63,12 +64,14 @@ function OpenShopMenu(ShopType)
 			'ears_1',
 			'ears_2',
 		}
+		price = Config.BarbarPrice
 	elseif ShopType == 2 then
 		menu_type = 'mask_menu'
 		MenuItems = {
 			'mask_1',
 			'mask_2',
 		}
+		price = Config.MaskPrice
 	end
 	
 	TriggerEvent('esx_skin:openRestrictedMenu', function(data, menu)
@@ -76,7 +79,7 @@ function OpenShopMenu(ShopType)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'shop_confirm',
 		{
-			title = _U('valid_this_purchase'),
+			title = _U('valid_this_purchase', price),
 			align		= 'top-right',
 			elements = {
 				{label = _U('no'), value = 'no'},

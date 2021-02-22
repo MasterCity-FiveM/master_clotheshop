@@ -1,5 +1,5 @@
 Locales['en'] = {
-	['valid_this_purchase'] = 'پرداخت را تکمیل کنید?',
+	['valid_this_purchase'] = 'پرداخت را تکمیل کنید? $%s',
 	['yes'] = 'بله',
 	['no'] = 'خیر',
 	['not_enough_money'] = 'شما پول کافی ندارید.',
