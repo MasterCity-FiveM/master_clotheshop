@@ -5,6 +5,7 @@ local CurrentAction           = nil
 local CurrentActionMsg        = ''
 local CurrentActionData       = {}
 local HasPaid                 = false
+local PlayerGender		      = "male"
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -12,6 +13,18 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 	end
 end)
+
+function SetGender()
+  local hashSkinMale = GetHashKey("mp_m_freemode_01")
+  local hashSkinFemale = GetHashKey("mp_f_freemode_01")
+  
+  
+  if GetEntityModel(PlayerPedId()) == hashSkinMale then
+    PlayerGender = "male"
+  elseif GetEntityModel(PlayerPedId()) == hashSkinFemale then
+    PlayerGender = "female"
+  end
+end
 
 function OpenShopMenu(ShopType)
 	HasPaid = false
@@ -98,32 +111,80 @@ function OpenShopMenu(ShopType)
 						HasPaid = true
 						
 						if not ShopType then
-							ESX.TriggerServerCallback('esx_clotheshop:checkPropertyDataStore', function(foundStore)
-								if foundStore then
-									ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'save_dressing',
+							ESX.TriggerServerCallback('master_gang:isInGang', function(isInGang)
+								if isInGang == true then
+									SetGender()
+									ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'gang_save',
 									{
 										title = _U('save_in_dressing'),
-										align		= 'right',
+										align		= 'top-right',
 										elements = {
-											{label = _U('no'),  value = 'no'},
-											{label = _U('yes'), value = 'yes'}
+											{label = 'بستن',  value = 'no'},
+											{label = 'ذخیره لباس ها',  value = 'save'},
+											{label = 'ذخیره برای گنگ', value = 'gang'}
 										}
 									}, function(data2, menu2)
 										menu2.close()
 
-										if data2.current.value == 'yes' then
-											ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'outfit_name', {
-												title = _U('name_outfit')
-											}, function(data3, menu3)
-												menu3.close()
+										if data2.current.value == 'save' then
+											ESX.TriggerServerCallback('esx_clotheshop:checkPropertyDataStore', function(foundStore)
+												if foundStore then
+													ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'outfit_name', {
+														title = _U('name_outfit')
+													}, function(data3, menu3)
+														menu3.close()
 
-												TriggerEvent('skinchanger:getSkin', function(skin)
-													TriggerServerEvent('esx_clotheshop:saveOutfit', data3.value, skin)
-												end)
+														TriggerEvent('skinchanger:getSkin', function(skin)
+															TriggerServerEvent('esx_clotheshop:saveOutfit', data3.value, skin)
+														end)
 
-												exports.pNotify:SendNotification({text = _U('saved_outfit'), type = "success", timeout = 4000})
-											end, function(data3, menu3)
-												menu3.close()
+														exports.pNotify:SendNotification({text = _U('saved_outfit'), type = "success", timeout = 4000})
+													end, function(data3, menu3)
+														menu3.close()
+													end)
+												end
+											end)
+										elseif data2.current.value == 'gang' then
+											TriggerEvent('skinchanger:getSkin', function(skin)
+												ESX.TriggerServerCallback('master_gang:saveclothes', function(saved)
+													if saved then
+														exports.pNotify:SendNotification({text = 'لباس مخصوص گنگ ذخیره شد.', type = "success", timeout = 4000})
+													else
+														exports.pNotify:SendNotification({text = 'شما اجازه ذخیره کردن لباس را ندارید!', type = "error", timeout = 4000})
+													end
+												end, skin, PlayerGender)
+											end)
+										end
+									end)
+								else
+									ESX.TriggerServerCallback('esx_clotheshop:checkPropertyDataStore', function(foundStore)
+										if foundStore then
+											ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'save_dressing',
+											{
+												title = _U('save_in_dressing'),
+												align		= 'top-right',
+												elements = {
+													{label = _U('no'),  value = 'no'},
+													{label = _U('yes'), value = 'yes'}
+												}
+											}, function(data2, menu2)
+												menu2.close()
+
+												if data2.current.value == 'yes' then
+													ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'outfit_name', {
+														title = _U('name_outfit')
+													}, function(data3, menu3)
+														menu3.close()
+
+														TriggerEvent('skinchanger:getSkin', function(skin)
+															TriggerServerEvent('esx_clotheshop:saveOutfit', data3.value, skin)
+														end)
+
+														exports.pNotify:SendNotification({text = _U('saved_outfit'), type = "success", timeout = 4000})
+													end, function(data3, menu3)
+														menu3.close()
+													end)
+												end
 											end)
 										end
 									end)
