@@ -4,6 +4,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('esx_clotheshop:saveOutfit')
 AddEventHandler('esx_clotheshop:saveOutfit', function(label, skin)
+	ESX.RunCustomFunction("anti_ddos", source, 'esx_clotheshop:saveOutfit', {label = label, skin = skin})
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
@@ -24,6 +25,7 @@ AddEventHandler('esx_clotheshop:saveOutfit', function(label, skin)
 end)
 
 ESX.RegisterServerCallback('esx_clotheshop:buyClothes', function(source, cb, SType)
+	ESX.RunCustomFunction("anti_ddos", source, 'esx_clotheshop:buyClothes', {SType = SType})
 	local xPlayer = ESX.GetPlayerFromId(source)
 	
 	if SType == 1 then
@@ -54,6 +56,7 @@ ESX.RegisterServerCallback('esx_clotheshop:buyClothes', function(source, cb, STy
 end)
 
 ESX.RegisterServerCallback('esx_clotheshop:checkPropertyDataStore', function(source, cb)
+	ESX.RunCustomFunction("anti_ddos", source, 'esx_clotheshop:checkPropertyDataStore', {})
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local foundStore = false
 	
