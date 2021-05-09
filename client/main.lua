@@ -155,6 +155,8 @@ function OpenShopMenu(ShopType)
 												end, skin, PlayerGender)
 											end)
 										end
+									end, function(data2, menu2)
+										menu2.close()
 									end)
 								else
 									ESX.TriggerServerCallback('esx_clotheshop:checkPropertyDataStore', function(foundStore)
@@ -185,6 +187,8 @@ function OpenShopMenu(ShopType)
 														menu3.close()
 													end)
 												end
+											end, function(data2, menu2)
+												menu2.close()
 											end)
 										end
 									end)
