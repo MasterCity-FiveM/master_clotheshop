@@ -47,7 +47,11 @@ function OpenShopMenu(ShopType)
 		'glasses_1',
 		'glasses_2',
 		'bags_1',
-		'bags_2'
+		'bags_2',
+		'mask_1',
+		'mask_2',
+		'ears_1',
+		'ears_2',
 	}
 	local menu_type = 'shop_menu'
 	local price = Config.ClothPrice
