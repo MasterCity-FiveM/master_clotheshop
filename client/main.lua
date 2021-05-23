@@ -26,6 +26,12 @@ function SetGender()
   end
 end
 
+
+RegisterNetEvent('master_clotheshop:openCustomMenu')
+AddEventHandler('master_clotheshop:openCustomMenu', function() 
+	OpenShopMenu(10)
+end)
+
 function OpenShopMenu(ShopType)
 	HasPaid = false
 	local MenuItems = {
@@ -89,6 +95,56 @@ function OpenShopMenu(ShopType)
 			'mask_2',
 		}
 		price = Config.MaskPrice
+	elseif ShopType == 10 then
+		menu_type = 'mask_menu'
+		MenuItems = {
+			'beard_1',
+			'beard_2',
+			'beard_3',
+			'beard_4',
+			'hair_1',
+			'hair_2',
+			'hair_color_1',
+			'hair_color_2',
+			'eyebrows_1',
+			'eyebrows_2',
+			'eyebrows_3',
+			'eyebrows_4',
+			'makeup_1',
+			'makeup_2',
+			'makeup_3',
+			'makeup_4',
+			'lipstick_1',
+			'lipstick_2',
+			'lipstick_3',
+			'lipstick_4',
+			'ears_1',
+			'ears_2',
+			'tshirt_1',
+			'tshirt_2',
+			'torso_1',
+			'torso_2',
+			'decals_1',
+			'decals_2',
+			'arms',
+			'pants_1',
+			'pants_2',
+			'shoes_1',
+			'shoes_2',
+			'chain_1',
+			'chain_2',
+			'helmet_1',
+			'helmet_2',
+			'glasses_1',
+			'glasses_2',
+			'bags_1',
+			'bags_2',
+			'mask_1',
+			'mask_2',
+			'bproof_1',
+			'bproof_2',
+		}
+		price = 0
 	end
 	
 	TriggerEvent('esx_skin:openRestrictedMenu', function(data, menu)
