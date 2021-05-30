@@ -6,6 +6,7 @@ local CurrentActionMsg        = ''
 local CurrentActionData       = {}
 local HasPaid                 = false
 local PlayerGender		      = "male"
+local DefaultSkin = {}
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -264,18 +265,14 @@ function OpenShopMenu(ShopType)
 					end
 				end, ShopType)
 			elseif data.current.value == 'no' then
-				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-					TriggerEvent('skinchanger:loadSkin', skin)
-				end)
+				TriggerEvent('skinchanger:loadSkin', DefaultSkin)
 			end
 
 			CurrentAction     = menu_type
 			CurrentActionMsg  = _U('press_menu')
 			CurrentActionData = {}
 		end, function(data, menu)
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-				TriggerEvent('skinchanger:loadSkin', skin)
-			end)
+			TriggerEvent('skinchanger:loadSkin', DefaultSkin)
 			menu.close()
 
 			CurrentAction     = menu_type
@@ -284,9 +281,7 @@ function OpenShopMenu(ShopType)
 		end)
 
 	end, function(data, menu)
-		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-			TriggerEvent('skinchanger:loadSkin', skin)
-		end)
+		TriggerEvent('skinchanger:loadSkin', DefaultSkin)
 		menu.close()
 
 		CurrentAction     = menu_type
@@ -312,6 +307,9 @@ AddEventHandler('esx_clotheshop:hasEnteredMarker', function(zone)
 	end
 		
 	if CurrentActionMsg ~= nil then
+		TriggerEvent('skinchanger:getSkin', function(skin)
+			DefaultSkin = skin
+		end)
 		exports.pNotify:SendNotification({text = CurrentActionMsg, type = "info", timeout = 3000})
 	end
 end)
@@ -321,9 +319,7 @@ AddEventHandler('esx_clotheshop:hasExitedMarker', function(zone)
 	CurrentAction = nil
 
 	if not HasPaid then
-		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-			TriggerEvent('skinchanger:loadSkin', skin)
-		end)
+		TriggerEvent('skinchanger:loadSkin', DefaultSkin)
 	end
 end)
 

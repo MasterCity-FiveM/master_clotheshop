@@ -33,6 +33,10 @@ ESX.RegisterServerCallback('esx_clotheshop:buyClothes', function(source, cb, STy
 			xPlayer.removeMoney(Config.BarbarPrice)
 			TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.BarbarPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
 			cb(true)
+		elseif xPlayer.getAccount('bank').money >= Config.BarbarPrice then
+			xPlayer.removeAccountMoney('bank', Config.BarbarPrice)
+			TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.BarbarPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
+			cb(true)
 		else
 			cb(false)
 		end
@@ -41,12 +45,20 @@ ESX.RegisterServerCallback('esx_clotheshop:buyClothes', function(source, cb, STy
 			xPlayer.removeMoney(Config.MaskPrice)
 			TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.MaskPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
 			cb(true)
+		elseif xPlayer.getAccount('bank').money >= Config.MaskPrice then
+			xPlayer.removeAccountMoney('bank', Config.MaskPrice)
+			TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.MaskPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
+			cb(true)
 		else
 			cb(false)
 		end
 	else
 		if xPlayer.getMoney() >= Config.ClothPrice then
 			xPlayer.removeMoney(Config.ClothPrice)
+			TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.ClothPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
+			cb(true)
+		elseif xPlayer.getAccount('bank').money >= Config.ClothPrice then
+			xPlayer.removeAccountMoney('bank', Config.ClothPrice)
 			TriggerClientEvent("pNotify:SendNotification", source, { text = _U('you_paid', Config.ClothPrice), type = "success", timeout = 5000, layout = "bottomCenter"})
 			cb(true)
 		else
