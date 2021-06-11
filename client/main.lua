@@ -97,7 +97,7 @@ function OpenShopMenu(ShopType)
 		}
 		price = Config.MaskPrice
 	elseif ShopType == 10 then
-		menu_type = 'mask_menu'
+		menu_type = 'full_menu'
 		MenuItems = {
 			'beard_1',
 			'beard_2',
