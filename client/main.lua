@@ -35,6 +35,10 @@ end)
 
 function OpenShopMenu(ShopType)
 	HasPaid = false
+	
+	TriggerEvent('master_weapons:ResetAll')
+	TriggerEvent('master_weapons:setStatus', true)
+	
 	local MenuItems = {
 		'tshirt_1',
 		'tshirt_2',
@@ -165,6 +169,9 @@ function OpenShopMenu(ShopType)
 			if data.current.value == 'yes' then
 				ESX.TriggerServerCallback('esx_clotheshop:buyClothes', function(bought)
 					if bought then
+						TriggerEvent('master_weapons:setStatus', false)
+						TriggerEvent('master_weapons:ResetAll')
+						
 						TriggerEvent('skinchanger:getSkin', function(skin)
 							TriggerServerEvent('esx_skin:save', skin)
 						end)
@@ -260,14 +267,20 @@ function OpenShopMenu(ShopType)
 						ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 							TriggerEvent('skinchanger:loadSkin', skin)
 						end)
-
+						
+						TriggerEvent('master_weapons:setStatus', false)
+						TriggerEvent('master_weapons:ResetAll')
+						
 						exports.pNotify:SendNotification({text = _U('not_enough_money'), type = "error", timeout = 4000})
 					end
 				end, ShopType)
 			elseif data.current.value == 'no' then
 				TriggerEvent('skinchanger:loadSkin', DefaultSkin)
 			end
-
+			
+			TriggerEvent('master_weapons:setStatus', false)
+			TriggerEvent('master_weapons:ResetAll')
+			
 			CurrentAction     = menu_type
 			CurrentActionMsg  = _U('press_menu')
 			CurrentActionData = {}
@@ -275,6 +288,9 @@ function OpenShopMenu(ShopType)
 			TriggerEvent('skinchanger:loadSkin', DefaultSkin)
 			menu.close()
 
+			TriggerEvent('master_weapons:setStatus', false)
+			TriggerEvent('master_weapons:ResetAll')
+			
 			CurrentAction     = menu_type
 			CurrentActionMsg  = _U('press_menu')
 			CurrentActionData = {}
@@ -283,7 +299,10 @@ function OpenShopMenu(ShopType)
 	end, function(data, menu)
 		TriggerEvent('skinchanger:loadSkin', DefaultSkin)
 		menu.close()
-
+		
+		TriggerEvent('master_weapons:setStatus', false)
+		TriggerEvent('master_weapons:ResetAll')
+		
 		CurrentAction     = menu_type
 		CurrentActionMsg  = _U('press_menu')
 		CurrentActionData = {}
